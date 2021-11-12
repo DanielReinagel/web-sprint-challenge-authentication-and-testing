@@ -1,5 +1,3 @@
-// test.db3 DOES NOT CURRENTLY INCLUDE THE USERS TABLE. TODO: Figure out how to migrate that
-
 const request = require("supertest");
 const server = require("./server");
 const db = require("../data/dbConfig");
@@ -16,7 +14,8 @@ const exampleReturns = [
 
 // Write your tests here
 test('[0] sanity and resetting the db', async () => {
-  await db("users").truncate();
+  await db.migrate.rollback();
+  await db.migrate.latest();
   expect(true).toBe(true);
 })
 describe("server", () => {
