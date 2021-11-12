@@ -11,7 +11,7 @@ router.post('/register', async (req, res) => {
   if(!username||!password) res.status(400).json({message:"username and password required"});
   else if(typeof username !== "string" && typeof password !== "string") res.status(400).json({message:"username and password must be of type string"});
   else await model.getBy({ username }).then(users => {
-    if(!!users.length) res.status(400).json({message:"username taken"})
+    if(users.length) res.status(400).json({message:"username taken"})
     else {
       const hash = bcrypt.hashSync(password, 8);
       req.payload = { username, password: hash };
